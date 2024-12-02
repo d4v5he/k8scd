@@ -26,8 +26,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            pwd
-            cd k8s-manifests
+            ls -l
+            cd k8scd/k8s-manifests
 
             # Apply all manifests
             kubectl apply -f serviceaccount.yaml
