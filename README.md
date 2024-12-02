@@ -7,7 +7,6 @@ General:
     a. DOCKR_USERNAME
     b. DOCKER_PASSWORD
     c. SSH_KEY (vockey)
-2. Create S3 bucket (publicly accessible)
 
 Bastion:
 
