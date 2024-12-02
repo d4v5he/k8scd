@@ -4,10 +4,8 @@ from flask import Flask, render_template, send_file
 import json
 import tempfile
 
-# Flask app
 app = Flask(__name__)
 
-# Load welcome message from config file
 def load_config(config_path="config.json"):
     try:
         with open(config_path, "r") as file:
@@ -16,7 +14,6 @@ def load_config(config_path="config.json"):
     except FileNotFoundError:
         return "Welcome to the Photo Viewer!"
 
-# Get photo file names from S3
 def get_s3_photos(bucket_name):
     s3 = boto3.client("s3")
     try:
@@ -28,7 +25,6 @@ def get_s3_photos(bucket_name):
         print(f"Error retrieving files from S3: {e}")
         return []
 
-# Download photo from S3
 def download_photo(bucket_name, key):
     s3 = boto3.client("s3")
     temp_file = tempfile.NamedTemporaryFile(delete=False)
