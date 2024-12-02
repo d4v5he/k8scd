@@ -1,0 +1,40 @@
+name: CD
+on:
+  # push:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+    inputs:
+      EC2_IP:
+        description: "The IP address of the Kind EC2 instance"
+        required: true
+
+jobs:
+  Deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Run SSH commands to deploy using kubectl
+      - name: Deploy to kind Cluster
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ inputs.EC2_IP }}
+          username: ec2-user
+          key: ${{ secrets.SSH_KEY }}
+          port: 22
+          script: |
+            cd k8s-manifests
+
+            # Apply all manifests
+            kubectl apply -f serviceaccount.yaml
+            kubectl apply -f configmap.yaml
+            kubectl apply -f deployment.yaml
+            kubectl apply -f service.yaml
+            kubectl apply -f ingress.yaml
+
+            # Deploy Nginx Ingress
+            kubectl apply -f ingress-nginx.yaml
+            kubectl apply -f nginx-service.yaml
