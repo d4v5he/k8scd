@@ -4,11 +4,11 @@ metadata:
   name: python-app-service
   namespace: pyui
 spec:
-  type: NodePort
+  # type: NodePort
   selector:
     app: python-app
   ports:
   - protocol: TCP
     port: 80
     targetPort: 80
-    nodePort: 30080
+    # nodePort: 30080

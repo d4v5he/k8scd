@@ -33,7 +33,7 @@ jobs:
           script: |
             cd ~/repo/k8s-manifests
 
-            kubectl create ns pyui
+            kubectl create ns pyui || true
 
             # Apply all manifests
             kubectl apply -f serviceaccount.yaml
@@ -42,6 +42,6 @@ jobs:
             kubectl apply -f service.yaml
             kubectl apply -f ingress.yaml
 
-            # Deploy Nginx Ingress
-            kubectl apply -f ingress-nginx.yaml
-            kubectl apply -f nginx-service.yaml
+            # # Deploy Nginx Ingress
+            # kubectl apply -f ingress-nginx.yaml
+            # kubectl apply -f nginx-service.yaml
