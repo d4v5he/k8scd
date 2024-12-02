@@ -1,5 +1,5 @@
 name: CI
-run-name: CI - {{ env.IMAGE_NAME }}
+run-name: CI
 
 on:
   push:
@@ -15,27 +15,8 @@ env:
   DOCKER_ACCOUNT: d4v5he
 
 jobs:
-  Setup:
+  Build-and-Upload:
     runs-on: self-hosted
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install Python
-        run: |
-          sudo yum update -y
-          sudo yum install python3 -y
-          sudo yum install -y python3-pip
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install --no-cache-dir boto3 flask
-
-  docker-build-push:
-    runs-on: self-hosted
-    needs: Setup
 
     steps:
       - name: Checkout code
