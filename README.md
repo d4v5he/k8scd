@@ -20,5 +20,3 @@ Kind (EC2):
 1. Create another EC2 for Kind (t3.medium)
 2. Open 22 for ssh from runner connection
 
---------
-
