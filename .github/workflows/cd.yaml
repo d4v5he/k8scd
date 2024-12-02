@@ -31,9 +31,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
-            pwd
-            ls -l
             cd ~/repo/k8s-manifests
+
+            kubectl create ns pyui
 
             # Apply all manifests
             kubectl apply -f serviceaccount.yaml
