@@ -17,7 +17,10 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Run SSH commands to deploy using kubectl
+      - name: Copy Repo to Kind EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i ${{ secrets.SSH_KEY }} -r ../* ec2-user@${{ inputs.EC2_IP }}:~/
+
       - name: Deploy to kind Cluster
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -27,7 +30,7 @@ jobs:
           port: 22
           script: |
             ls -l
-            cd k8scd/k8s-manifests
+            cd k8s-manifests
 
             # Apply all manifests
             kubectl apply -f serviceaccount.yaml
