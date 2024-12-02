@@ -36,12 +36,6 @@ jobs:
             kubectl create ns pyui || true
 
             # Apply all manifests
-            kubectl apply -f serviceaccount.yaml
             kubectl apply -f configmap.yaml
             kubectl apply -f deployment.yaml
             kubectl apply -f service.yaml
-            kubectl apply -f ingress.yaml
-
-            # Deploy Nginx Ingress
-            kubectl apply -f ingress-nginx.yaml
-            kubectl apply -f nginx-service.yaml
