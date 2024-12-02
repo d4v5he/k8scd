@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - .github/workflows/ci.yaml
   pull_request:
     branches:
       - main

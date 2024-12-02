@@ -26,6 +26,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 22
           script: |
+            pwd
             cd k8s-manifests
 
             # Apply all manifests
