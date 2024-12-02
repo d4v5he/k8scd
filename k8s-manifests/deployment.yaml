@@ -13,13 +13,9 @@ spec:
       labels:
         app: python-app
     spec:
-      serviceAccountName: app-sa
       containers:
       - name: python-app
         image: d4v5he/pyui:v1
-        env:
-        - name: S3_BUCKET_NAME
-          value: pyuibuckettechnion
         ports:
         - containerPort: 5000
         volumeMounts:

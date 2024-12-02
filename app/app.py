@@ -1,11 +1,10 @@
 import os
-import boto3
 from flask import Flask, render_template, send_file
 import json
-import tempfile
 
 app = Flask(__name__)
 
+# Function to load the configuration file
 def load_config(config_path="config.json"):
     try:
         with open(config_path, "r") as file:
@@ -14,46 +13,38 @@ def load_config(config_path="config.json"):
     except FileNotFoundError:
         return "Welcome to the Photo Viewer!"
 
-def get_s3_photos(bucket_name):
-    s3 = boto3.client("s3")
+# Function to get photos from a local folder
+def get_local_photos(folder_path="photos"):
     try:
-        objects = s3.list_objects_v2(Bucket=bucket_name)
-        if "Contents" in objects:
-            return [obj["Key"] for obj in objects["Contents"] if obj["Key"].lower().endswith((".png", ".jpg", ".jpeg"))]
-        return []
+        if os.path.exists(folder_path):
+            return [
+                file for file in os.listdir(folder_path)
+                if file.lower().endswith((".png", ".jpg", ".jpeg"))
+            ]
+        else:
+            print(f"Error: Folder '{folder_path}' does not exist.")
+            return []
     except Exception as e:
-        print(f"Error retrieving files from S3: {e}")
+        print(f"Error retrieving files from folder: {e}")
         return []
-
-def download_photo(bucket_name, key):
-    s3 = boto3.client("s3")
-    temp_file = tempfile.NamedTemporaryFile(delete=False)
-    try:
-        s3.download_fileobj(bucket_name, key, temp_file)
-        temp_file.close()
-        return temp_file.name
-    except Exception as e:
-        print(f"Error downloading {key}: {e}")
-        return None
 
 @app.route("/")
 def index():
-    bucket_name = os.getenv("S3_BUCKET_NAME")
-    if not bucket_name:
-        return "Error: S3_BUCKET_NAME environment variable not set."
+    # Local folder path
+    folder_path = os.getenv("PHOTO_FOLDER", "photos")
 
     welcome_message = load_config()
-    photos = get_s3_photos(bucket_name)
+    photos = get_local_photos(folder_path)
 
     return render_template("index.html", welcome_message=welcome_message, photos=photos)
 
 @app.route("/photo/<path:photo_key>")
 def photo(photo_key):
-    bucket_name = os.getenv("S3_BUCKET_NAME")
-    file_path = download_photo(bucket_name, photo_key)
-    if file_path:
+    folder_path = os.getenv("PHOTO_FOLDER", "photos")
+    file_path = os.path.join(folder_path, photo_key)
+    if os.path.exists(file_path):
         return send_file(file_path, mimetype="image/jpeg")
-    return "Error downloading photo.", 404
+    return "Error: Photo not found.", 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

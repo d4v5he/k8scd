@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 ENV PYTHONUNBUFFERED=1
-ENV S3_BUCKET_NAME=${S3_BUCKET_NAME}
 
 WORKDIR /app
 
