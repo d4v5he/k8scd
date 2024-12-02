@@ -38,7 +38,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t {{ env.DOCKER_ACCOUNT }}/{{ env.IMAGE_NAME }}:{{ env.IMAGE_TAG }} ./app
+        run: docker build -t ${{ env.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} ./app
 
       - name: Push Docker image
-        run: docker push {{ env.DOCKER_ACCOUNT }}/{{ env.IMAGE_NAME }}:{{ env.IMAGE_TAG }}
+        run: docker push ${{ env.DOCKER_ACCOUNT }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
