@@ -1,4 +1,5 @@
 name: Install Kind Cluster on EC2
+run-name: Install Kind on ${{ inputs.EC2_IP }}
 
 on:
   workflow_dispatch:
