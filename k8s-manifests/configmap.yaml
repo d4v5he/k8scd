@@ -6,5 +6,5 @@ metadata:
 data:
   config.json: |
     {
-      "welcome_message": "Welcome - This is a message from configmap!"
+      "welcome_message": "Welcome - David"
     }
